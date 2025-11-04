@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Highland Cattle Breeding Calculator - Dropdown</title>
+    <style>
+        :root {
+            --brand-color1: #052e68;
+            --brand-color2: #0a5fd7;
+            --brand-color3: #009be1;
+            --brand-color4: #37c3f5;
+            --gray-0: #f8fafb;
+            --gray-1: #f2f4f6;
+            --gray-2: #ebedef;
+            --gray-3: #e0e4e5;
+            --gray-4: #d1d6d8;
+            --gray-6: #979b9d;
+            --gray-12: #121210;
+            --border-radius: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, sans-serif;
+            background: var(--gray-0);
+            color: var(--gray-12);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 32px 16px;
+        }
+
+        .calculator {
+            max-width: 1200px;
+            width: 100%;
+            background: white;
+            border-radius: calc(var(--border-radius) * 2);
+            padding: 32px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .nav {
+            margin-bottom: 24px;
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+
+        .nav a {
+            padding: 8px 16px;
+            background: var(--gray-1);
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            color: black;
+            font-weight: 500;
+        }
+
+        .nav a:hover {
+            background: var(--gray-2);
+        }
+
+        .nav a.active {
+            background: var(--brand-color2);
+            color: white;
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            color: black;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            margin: 0 0 16px;
+            color: black;
+            font-size: 16px;
+        }
+
+        .testing-toggle {
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .testing-toggle input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .testing-toggle label {
+            font-size: 14px;
+            font-weight: 500;
+            color: black;
+            cursor: pointer;
+        }
+
+        .breed-tabs {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 32px;
+            border-bottom: 2px solid var(--gray-3);
+            padding-bottom: 0;
+        }
+
+        .breed-tab {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray-6);
+            transition: all 0.15s ease-in-out;
+            margin-bottom: -2px;
+        }
+
+        .breed-tab:hover {
+            color: var(--brand-color2);
+        }
+
+        .breed-tab.active {
+            color: var(--brand-color2);
+            border-bottom-color: var(--brand-color2);
+        }
+
+        .parent-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+
+        @media (max-width: 900px) {
+            .parent-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .parent-card {
+            padding: 24px;
+            background: var(--gray-0);
+            border-radius: var(--border-radius);
+        }
+
+        .parent-card h2 {
+            margin: 0 0 8px;
+            font-size: 20px;
+            color: black;
+        }
+
+        .color-dropdown {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--gray-4);
+            border-radius: var(--border-radius);
+            background: white;
+            color: black;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease-in-out;
+        }
+
+        .color-dropdown:hover {
+            border-color: var(--brand-color3);
+        }
+
+        .color-dropdown:focus {
+            outline: none;
+            border-color: var(--brand-color2);
+        }
+
+        .genotype-selector {
+            display: none;
+        }
+
+        .genotype-selector.active {
+            display: block;
+        }
+
+        .color-dropdown-container {
+            margin-bottom: 16px;
+        }
+
+        .color-dropdown-container.hidden {
+            display: none;
+        }
+
+        .zygosity-selector {
+            margin-top: 16px;
+            display: none;
+        }
+
+        .zygosity-selector.visible {
+            display: block;
+        }
+
+        .zygosity-selector label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: black;
+        }
+
+        .zygosity-dropdown {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid var(--gray-4);
+            border-radius: var(--border-radius);
+            background: white;
+            color: black;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease-in-out;
+        }
+
+        .zygosity-dropdown:hover {
+            border-color: var(--brand-color3);
+        }
+
+        .zygosity-dropdown:focus {
+            outline: none;
+            border-color: var(--brand-color2);
+        }
+
+        .gene-group {
+            margin-bottom: 24px;
+        }
+
+        .gene-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .gene-group h4 {
+            margin: 0 0 12px;
+            font-size: 14px;
+            color: black;
+            font-weight: 600;
+        }
+
+        .allele-selectors {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .allele-dropdown {
+            flex: 1;
+            padding: 6px 8px;
+            border: 2px solid var(--gray-4);
+            border-radius: var(--border-radius);
+            background: white;
+            color: black;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s ease-in-out;
+        }
+
+        .allele-dropdown:hover {
+            border-color: var(--brand-color3);
+        }
+
+        .allele-dropdown:focus {
+            outline: none;
+            border-color: var(--brand-color2);
+        }
+
+        .separator {
+            font-size: 16px;
+            font-weight: 700;
+            color: black;
+        }
+
+        .results-section {
+            padding: 24px;
+            background: var(--gray-0);
+            border-radius: var(--border-radius);
+        }
+
+        .results-section h2 {
+            margin: 0 0 24px;
+            font-size: 24px;
+            color: black;
+        }
+
+        .results-card {
+            padding: 24px;
+            background: white;
+            border-radius: var(--border-radius);
+            border: 2px solid var(--gray-3);
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+        }
+
+        .result-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .result-item img {
+            width: 100%;
+            height: auto;
+            max-height: 100px;
+            object-fit: contain;
+        }
+
+        .result-item .color-name {
+            font-weight: 600;
+            color: black;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .result-item .probability {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--brand-color2);
+        }
+
+        .no-results {
+            text-align: center;
+            color: var(--gray-6);
+            padding: 48px;
+            font-size: 16px;
+        }
+
+        @media (max-width: 540px) {
+            .calculator {
+                padding: 24px 16px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="nav">
+            <a href="highland-calculator.html">Color Calculator</a>
+            <a href="breeding-calculator.html" class="active">Breeding Calculator</a>
+        </div>
+
+        <h1>Highland Cattle Breeding Calculator (Dropdown)</h1>
+        <p class="subtitle">Select the color of each parent to see offspring probabilities</p>
+
+        <div class="breed-tabs">
+            <a href="breeding-calculator.html" class="breed-tab active">Highland Cattle</a>
+            <a href="WhitePark/white-park-breeding-calculator.html" class="breed-tab">White Park Cattle</a>
+            <a href="Shorthorn/shorthorn-breeding-calculator.html" class="breed-tab">Shorthorn Cattle</a>
+        </div>
+
+        <div class="parent-section">
+            <div class="parent-card">
+                <h2>Sire</h2>
+                <div class="color-dropdown-container" id="parent1DropdownContainer">
+                    <select class="color-dropdown" id="parent1ColorDropdown">
+                        <option value="">Select a color...</option>
+                    </select>
+                </div>
+                <div class="zygosity-selector" id="parent1Zygosity">
+                    <label for="parent1ZygosityDropdown">ED Zygosity:</label>
+                    <select class="zygosity-dropdown" id="parent1ZygosityDropdown">
+                        <option value="heterozygous">Heterozygous (ED/e or ED/E+)</option>
+                        <option value="homozygous">Homozygous (ED/ED)</option>
+                    </select>
+                </div>
+                <div class="testing-toggle">
+                    <input type="checkbox" id="parent1TestingToggle">
+                    <label for="parent1TestingToggle">Have genetic testing results?</label>
+                </div>
+                <div class="genotype-selector" id="parent1Genotype">
+                    <div class="gene-group">
+                        <h4>Base (MC1R)</h4>
+                        <div class="allele-selectors">
+                            <select class="allele-dropdown" id="p1_mc1r1">
+                                <option value="ED">E<sup>D</sup></option>
+                                <option value="E+">E<sup>+</sup></option>
+                                <option value="e" selected>e</option>
+                            </select>
+                            <span class="separator">/</span>
+                            <select class="allele-dropdown" id="p1_mc1r2">
+                                <option value="ED">E<sup>D</sup></option>
+                                <option value="E+">E<sup>+</sup></option>
+                                <option value="e" selected>e</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="gene-group">
+                        <h4>Dilution (PMEL)</h4>
+                        <div class="allele-selectors">
+                            <select class="allele-dropdown" id="p1_pmel1">
+                                <option value="N" selected>N</option>
+                                <option value="Dh">D<sup>h</sup></option>
+                            </select>
+                            <span class="separator">/</span>
+                            <select class="allele-dropdown" id="p1_pmel2">
+                                <option value="N" selected>N</option>
+                                <option value="Dh">D<sup>h</sup></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="gene-group">
+                        <h4>Agouti (ASIP)</h4>
+                        <div class="allele-selectors">
+                            <select class="allele-dropdown" id="p1_asip1">
+                                <option value="A" selected>A</option>
+                                <option value="A+">A<sup>+</sup></option>
+                                <option value="Abr">A<sup>br</sup></option>
+                            </select>
+                            <span class="separator">/</span>
+                            <select class="allele-dropdown" id="p1_asip2">
+                                <option value="A" selected>A</option>
+                                <option value="A+">A<sup>+</sup></option>
+                                <option value="Abr">A<sup>br</sup></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="parent-card">
+                <h2>Dam</h2>
+                <div class="color-dropdown-container" id="parent2DropdownContainer">
+                    <select class="color-dropdown" id="parent2ColorDropdown">
+                        <option value="">Select a color...</option>
+                    </select>
+                </div>
+                <div class="zygosity-selector" id="parent2Zygosity">
+                    <label for="parent2ZygosityDropdown">ED Zygosity:</label>
+                    <select class="zygosity-dropdown" id="parent2ZygosityDropdown">
+                        <option value="heterozygous">Heterozygous (ED/e or ED/E+)</option>
+                        <option value="homozygous">Homozygous (ED/ED)</option>
+                    </select>
+                </div>
+                <div class="testing-toggle">
+                    <input type="checkbox" id="parent2TestingToggle">
+                    <label for="parent2TestingToggle">Have genetic testing results?</label>
+                </div>
+                <div class="genotype-selector" id="parent2Genotype">
+                    <div class="gene-group">
+                        <h4>Base (MC1R)</h4>
+                        <div class="allele-selectors">
+                            <select class="allele-dropdown" id="p2_mc1r1">
+                                <option value="ED">E<sup>D</sup></option>
+                                <option value="E+">E<sup>+</sup></option>
+                                <option value="e" selected>e</option>
+                            </select>
+                            <span class="separator">/</span>
+                            <select class="allele-dropdown" id="p2_mc1r2">
+                                <option value="ED">E<sup>D</sup></option>
+                                <option value="E+">E<sup>+</sup></option>
+                                <option value="e" selected>e</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="gene-group">
+                        <h4>Dilution (PMEL)</h4>
+                        <div class="allele-selectors">
+                            <select class="allele-dropdown" id="p2_pmel1">
+                                <option value="N" selected>N</option>
+                                <option value="Dh">D<sup>h</sup></option>
+                            </select>
+                            <span class="separator">/</span>
+                            <select class="allele-dropdown" id="p2_pmel2">
+                                <option value="N" selected>N</option>
+                                <option value="Dh">D<sup>h</sup></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="gene-group">
+                        <h4>Agouti (ASIP)</h4>
+                        <div class="allele-selectors">
+                            <select class="allele-dropdown" id="p2_asip1">
+                                <option value="A" selected>A</option>
+                                <option value="A+">A<sup>+</sup></option>
+                                <option value="Abr">A<sup>br</sup></option>
+                            </select>
+                            <span class="separator">/</span>
+                            <select class="allele-dropdown" id="p2_asip2">
+                                <option value="A" selected>A</option>
+                                <option value="A+">A<sup>+</sup></option>
+                                <option value="Abr">A<sup>br</sup></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="results-section">
+            <h2>Offspring Probabilities</h2>
+            <div id="resultsContainer">
+                <div class="results-card"><div class="no-results">Select both parent colors to see breeding results</div></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const colors = [
+            { name: 'Red', image: 'HighlandsFinal/light_red_1.svg' },
+            { name: 'Black', image: 'HighlandsFinal/black.svg' },
+            { name: 'Yellow', image: 'HighlandsFinal/light_yellow_10.svg' },
+            { name: 'Dun', image: 'HighlandsFinal/dark_dun_3.svg' },
+            { name: 'White', image: 'HighlandsFinal/white_2.svg' },
+            { name: 'Silver', image: 'HighlandsFinal/silver.svg' },
+            { name: 'Brindle', image: 'HighlandsFinal/red_brindle_2.svg' }
+        ];
+
+        function hasWhiteUdder(udder) {
+            // White udder appears when heterozygous (w/W or W/w)
+            return (udder[0] !== udder[1]);
+        }
+
+        // Genotype possibilities for each color (udder not included here, handled separately)
+        const colorGenotypes = {
+            'Black': [
+                { mc1r: ['ED', 'ED'], pmel: ['N', 'N'], asip: ['A', 'A'], udder: ['w', 'w'] },
+                { mc1r: ['ED', 'ED'], pmel: ['N', 'N'], asip: ['A', 'Abr'], udder: ['w', 'w'] },
+                { mc1r: ['ED', 'ED'], pmel: ['N', 'N'], asip: ['Abr', 'Abr'], udder: ['w', 'w'] },
+                { mc1r: ['ED', 'E+'], pmel: ['N', 'N'], asip: ['A', 'A'], udder: ['w', 'w'] },
+                { mc1r: ['ED', 'E+'], pmel: ['N', 'N'], asip: ['A', 'Abr'], udder: ['w', 'w'] },
+                { mc1r: ['ED', 'E+'], pmel: ['N', 'N'], asip: ['Abr', 'Abr'], udder: ['w', 'w'] },
+                { mc1r: ['ED', 'e'], pmel: ['N', 'N'], asip: ['A', 'A'], udder: ['w', 'w'] },
+                { mc1r: ['ED', 'e'], pmel: ['N', 'N'], asip: ['A', 'Abr'], udder: ['w', 'w'] },
+                { mc1r: ['ED', 'e'], pmel: ['N', 'N'], asip: ['Abr', 'Abr'], udder: ['w', 'w'] }
+            ],
+            'Dun': [
+                { mc1r: ['ED', 'ED'], pmel: ['N', 'Dh'], asip: ['A', 'A'], udder: ['w', 'w'] },
+                { mc1r: ['ED', 'ED'], pmel: ['N', 'Dh'], asip: ['A', 'Abr'], udder: ['w', 'w'] },
+                { mc1r: ['ED', 'ED'], pmel: ['N', 'Dh'], asip: ['Abr', 'Abr'], udder: ['w', 'w'] },
+                { mc1r: ['ED', 'E+'], pmel: ['N', 'Dh'], asip: ['A', 'A'], udder: ['w', 'w'] },
+                { mc1r: ['ED', 'E+'], pmel: ['N', 'Dh'], asip: ['A', 'Abr'], udder: ['w', 'w'] },
+                { mc1r: ['ED', 'E+'], pmel: ['N', 'Dh'], asip: ['Abr', 'Abr'], udder: ['w', 'w'] },
+                { mc1r: ['ED', 'e'], pmel: ['N', 'Dh'], asip: ['A', 'A'], udder: ['w', 'w'] },
+                { mc1r: ['ED', 'e'], pmel: ['N', 'Dh'], asip: ['A', 'Abr'], udder: ['w', 'w'] },
+                { mc1r: ['ED', 'e'], pmel: ['N', 'Dh'], asip: ['Abr', 'Abr'], udder: ['w', 'w'] }
+            ],
+            'Silver': [
+                { mc1r: ['ED', 'ED'], pmel: ['Dh', 'Dh'], asip: ['A', 'A'], udder: ['w', 'w'] },
+                { mc1r: ['ED', 'ED'], pmel: ['Dh', 'Dh'], asip: ['A', 'Abr'], udder: ['w', 'w'] },
+                { mc1r: ['ED', 'ED'], pmel: ['Dh', 'Dh'], asip: ['Abr', 'Abr'], udder: ['w', 'w'] },
+                { mc1r: ['ED', 'E+'], pmel: ['Dh', 'Dh'], asip: ['A', 'A'], udder: ['w', 'w'] },
+                { mc1r: ['ED', 'E+'], pmel: ['Dh', 'Dh'], asip: ['A', 'Abr'], udder: ['w', 'w'] },
+                { mc1r: ['ED', 'E+'], pmel: ['Dh', 'Dh'], asip: ['Abr', 'Abr'], udder: ['w', 'w'] },
+                { mc1r: ['ED', 'e'], pmel: ['Dh', 'Dh'], asip: ['A', 'A'], udder: ['w', 'w'] },
+                { mc1r: ['ED', 'e'], pmel: ['Dh', 'Dh'], asip: ['A', 'Abr'], udder: ['w', 'w'] },
+                { mc1r: ['ED', 'e'], pmel: ['Dh', 'Dh'], asip: ['Abr', 'Abr'], udder: ['w', 'w'] }
+            ],
+            'Red': [
+                { mc1r: ['e', 'e'], pmel: ['N', 'N'], asip: ['A', 'A'], udder: ['w', 'w'] },
+                { mc1r: ['e', 'e'], pmel: ['N', 'N'], asip: ['A', 'Abr'], udder: ['w', 'w'] },
+                { mc1r: ['e', 'e'], pmel: ['N', 'N'], asip: ['Abr', 'Abr'], udder: ['w', 'w'] },
+                { mc1r: ['E+', 'E+'], pmel: ['N', 'N'], asip: ['A', 'A'], udder: ['w', 'w'] },
+                { mc1r: ['E+', 'e'], pmel: ['N', 'N'], asip: ['A', 'A'], udder: ['w', 'w'] }
+            ],
+            'Yellow': [
+                { mc1r: ['e', 'e'], pmel: ['N', 'Dh'], asip: ['A', 'A'], udder: ['w', 'w'] },
+                { mc1r: ['e', 'e'], pmel: ['N', 'Dh'], asip: ['A', 'Abr'], udder: ['w', 'w'] },
+                { mc1r: ['e', 'e'], pmel: ['N', 'Dh'], asip: ['Abr', 'Abr'], udder: ['w', 'w'] },
+                { mc1r: ['E+', 'E+'], pmel: ['N', 'Dh'], asip: ['A', 'A'], udder: ['w', 'w'] },
+                { mc1r: ['E+', 'e'], pmel: ['N', 'Dh'], asip: ['A', 'A'], udder: ['w', 'w'] }
+            ],
+            'White': [
+                { mc1r: ['e', 'e'], pmel: ['Dh', 'Dh'], asip: ['A', 'A'], udder: ['w', 'w'] },
+                { mc1r: ['e', 'e'], pmel: ['Dh', 'Dh'], asip: ['A', 'Abr'], udder: ['w', 'w'] },
+                { mc1r: ['e', 'e'], pmel: ['Dh', 'Dh'], asip: ['Abr', 'Abr'], udder: ['w', 'w'] },
+                { mc1r: ['E+', 'E+'], pmel: ['Dh', 'Dh'], asip: ['A', 'A'], udder: ['w', 'w'] },
+                { mc1r: ['E+', 'e'], pmel: ['Dh', 'Dh'], asip: ['A', 'A'], udder: ['w', 'w'] }
+            ],
+            'Brindle': [
+                { mc1r: ['E+', 'E+'], pmel: ['N', 'N'], asip: ['A', 'Abr'], udder: ['w', 'w'] },
+                { mc1r: ['E+', 'E+'], pmel: ['N', 'N'], asip: ['Abr', 'Abr'], udder: ['w', 'w'] },
+                { mc1r: ['E+', 'e'], pmel: ['N', 'N'], asip: ['A', 'Abr'], udder: ['w', 'w'] },
+                { mc1r: ['E+', 'e'], pmel: ['N', 'N'], asip: ['Abr', 'Abr'], udder: ['w', 'w'] }
+            ]
+        };
+
+        let selectedParent1 = null;
+        let selectedParent2 = null;
+        let parent1UseTesting = false;
+        let parent2UseTesting = false;
+
+        function highlandColor(mc1r, pmel, asip) {
+            const has_ED = mc1r.includes('ED');
+            const has_Eplus = mc1r.includes('E+');
+            const dhCount = pmel.filter(a => a === 'Dh').length;
+            const has_Abr = asip.includes('Abr');
+
+            if (has_ED) {
+                if (dhCount === 0) return 'Black';
+                if (dhCount === 1) return 'Dun';
+                return 'Silver';
+            }
+
+            if (dhCount === 0 && has_Eplus && has_Abr) {
+                return 'Brindle';
+            }
+
+            if (dhCount === 0) return 'Red';
+            if (dhCount === 1) return 'Yellow';
+            return 'White';
+        }
+
+        function populateColorDropdowns() {
+            const parent1Dropdown = document.getElementById('parent1ColorDropdown');
+            const parent2Dropdown = document.getElementById('parent2ColorDropdown');
+
+            colors.forEach(color => {
+                const option1 = document.createElement('option');
+                option1.value = color.name;
+                option1.textContent = color.name;
+                parent1Dropdown.appendChild(option1);
+
+                const option2 = document.createElement('option');
+                option2.value = color.name;
+                option2.textContent = color.name;
+                parent2Dropdown.appendChild(option2);
+            });
+
+            parent1Dropdown.addEventListener('change', (e) => {
+                selectedParent1 = e.target.value || null;
+                const parent1ZygositySelector = document.getElementById('parent1Zygosity');
+
+                // Show zygosity selector for Black, Dun, or Silver
+                if (['Black', 'Dun', 'Silver'].includes(selectedParent1)) {
+                    parent1ZygositySelector.classList.add('visible');
+                } else {
+                    parent1ZygositySelector.classList.remove('visible');
+                }
+
+                calculateOffspring();
+            });
+
+            parent2Dropdown.addEventListener('change', (e) => {
+                selectedParent2 = e.target.value || null;
+                const parent2ZygositySelector = document.getElementById('parent2Zygosity');
+
+                // Show zygosity selector for Black, Dun, or Silver
+                if (['Black', 'Dun', 'Silver'].includes(selectedParent2)) {
+                    parent2ZygositySelector.classList.add('visible');
+                } else {
+                    parent2ZygositySelector.classList.remove('visible');
+                }
+
+                calculateOffspring();
+            });
+        }
+
+        function calculateOffspring() {
+            const resultsContainer = document.getElementById('resultsContainer');
+
+            let p1, p2;
+
+            // Sire
+            if (parent1UseTesting) {
+                p1 = {
+                    mc1r: [
+                        document.getElementById('p1_mc1r1').value,
+                        document.getElementById('p1_mc1r2').value
+                    ],
+                    pmel: [
+                        document.getElementById('p1_pmel1').value,
+                        document.getElementById('p1_pmel2').value
+                    ],
+                    asip: [
+                        document.getElementById('p1_asip1').value,
+                        document.getElementById('p1_asip2').value
+                    ],
+                    udder: ['w', 'w']
+                };
+            } else {
+                if (!selectedParent1) {
+                    resultsContainer.innerHTML = '<div class="results-card"><div class="no-results">Select both parents to see breeding results</div></div>';
+                    return;
+                }
+                const parent1Genotypes = colorGenotypes[selectedParent1];
+
+                // Check if we need to use zygosity selection for Black, Dun, or Silver
+                if (['Black', 'Dun', 'Silver'].includes(selectedParent1)) {
+                    const parent1Zygosity = document.getElementById('parent1ZygosityDropdown').value;
+                    if (parent1Zygosity === 'homozygous') {
+                        p1 = parent1Genotypes[0]; // ED/ED
+                    } else {
+                        p1 = parent1Genotypes[6]; // ED/e
+                    }
+                } else {
+                    p1 = parent1Genotypes[0];
+                }
+            }
+
+            // Dam
+            if (parent2UseTesting) {
+                p2 = {
+                    mc1r: [
+                        document.getElementById('p2_mc1r1').value,
+                        document.getElementById('p2_mc1r2').value
+                    ],
+                    pmel: [
+                        document.getElementById('p2_pmel1').value,
+                        document.getElementById('p2_pmel2').value
+                    ],
+                    asip: [
+                        document.getElementById('p2_asip1').value,
+                        document.getElementById('p2_asip2').value
+                    ],
+                    udder: ['w', 'w']
+                };
+            } else {
+                if (!selectedParent2) {
+                    resultsContainer.innerHTML = '<div class="results-card"><div class="no-results">Select both parents to see breeding results</div></div>';
+                    return;
+                }
+                const parent2Genotypes = colorGenotypes[selectedParent2];
+
+                // Check if we need to use zygosity selection for Black, Dun, or Silver
+                if (['Black', 'Dun', 'Silver'].includes(selectedParent2)) {
+                    const parent2Zygosity = document.getElementById('parent2ZygosityDropdown').value;
+                    if (parent2Zygosity === 'homozygous') {
+                        p2 = parent2Genotypes[0]; // ED/ED
+                    } else {
+                        p2 = parent2Genotypes[6]; // ED/e
+                    }
+                } else {
+                    p2 = parent2Genotypes[0];
+                }
+            }
+
+            // Calculate all possible offspring
+            const offspringCounts = {};
+            const colorUdderCounts = {};
+
+            // Cross MC1R
+            const mc1rOptions = [];
+            for (let a1 of p1.mc1r) {
+                for (let a2 of p2.mc1r) {
+                    mc1rOptions.push([a1, a2]);
+                }
+            }
+
+            // Cross PMEL
+            const pmelOptions = [];
+            for (let a1 of p1.pmel) {
+                for (let a2 of p2.pmel) {
+                    pmelOptions.push([a1, a2]);
+                }
+            }
+
+            // Cross ASIP
+            const asipOptions = [];
+            for (let a1 of p1.asip) {
+                for (let a2 of p2.asip) {
+                    asipOptions.push([a1, a2]);
+                }
+            }
+
+            // Cross Udder
+            const udderOptions = [];
+            for (let a1 of p1.udder) {
+                for (let a2 of p2.udder) {
+                    udderOptions.push([a1, a2]);
+                }
+            }
+
+            // Combine all possibilities
+            for (let mc1r of mc1rOptions) {
+                for (let pmel of pmelOptions) {
+                    for (let asip of asipOptions) {
+                        for (let udder of udderOptions) {
+                            const color = highlandColor(mc1r, pmel, asip);
+                            const showUdder = hasWhiteUdder(udder);
+                            const key = `${color}_${showUdder}`;
+                            colorUdderCounts[key] = (colorUdderCounts[key] || 0) + 1;
+                            offspringCounts[color] = (offspringCounts[color] || 0) + 1;
+                        }
+                    }
+                }
+            }
+
+            // Calculate total and percentages
+            const total = Object.values(offspringCounts).reduce((a, b) => a + b, 0);
+            const results = Object.entries(offspringCounts).map(([color, count]) => {
+                const exactPercentage = (count / total) * 100;
+                const roundedPercentage = Math.round(exactPercentage);
+
+                // If it's a whole number, show as integer
+                if (exactPercentage === roundedPercentage) {
+                    return { color, percentage: `${roundedPercentage}%` };
+                }
+
+                // Check for common fractions to show specific decimal places
+                if (count * 16 === total) return { color, percentage: '6.25%' };
+                if (count * 8 === total) return { color, percentage: '12.5%' };
+                if (count * 32 === total) return { color, percentage: '3.125%' };
+
+                // Otherwise show two decimal places, but remove .00
+                const formatted = exactPercentage.toFixed(2);
+                const cleaned = formatted.replace(/\.00$/, '');
+                return { color, percentage: `${cleaned}%` };
+            });
+
+            // Sort by percentage descending
+            results.sort((a, b) => b.percentage - a.percentage);
+
+            // Display results in a single card
+            resultsContainer.innerHTML = '<div class="results-card"><div class="results-grid"></div></div>';
+            const grid = resultsContainer.querySelector('.results-grid');
+
+            results.forEach(result => {
+                const colorData = colors.find(c => c.name === result.color);
+
+                // Check udder probability for this color
+                const withUdderKey = `${result.color}_true`;
+                const withoutUdderKey = `${result.color}_false`;
+                const withUdderCount = colorUdderCounts[withUdderKey] || 0;
+                const withoutUdderCount = colorUdderCounts[withoutUdderKey] || 0;
+
+                // If white udder appears in any offspring of this color, show it
+                if (withUdderCount > 0) {
+                    const item = document.createElement('div');
+                    item.className = 'result-item';
+
+                    const imgContainer = document.createElement('div');
+                    imgContainer.style.position = 'relative';
+                    imgContainer.style.width = '100%';
+
+                    const baseImg = document.createElement('img');
+                    baseImg.src = colorData.image;
+                    baseImg.alt = result.color;
+                    baseImg.style.width = '100%';
+                    baseImg.style.display = 'block';
+
+                    const udderImg = document.createElement('img');
+                    udderImg.src = 'HighlandsFinal/white_udder_4.svg';
+                    udderImg.alt = 'White Udder';
+                    udderImg.style.position = 'absolute';
+                    udderImg.style.top = '0';
+                    udderImg.style.left = '0';
+                    udderImg.style.width = '100%';
+                    udderImg.style.height = '100%';
+
+                    imgContainer.appendChild(baseImg);
+                    imgContainer.appendChild(udderImg);
+
+                    const colorNameDiv = document.createElement('div');
+                    colorNameDiv.className = 'color-name';
+                    colorNameDiv.textContent = `${result.color} (w/ udder)`;
+
+                    const probDiv = document.createElement('div');
+                    probDiv.className = 'probability';
+                    const udderPercentage = (withUdderCount / total * 100).toFixed(2).replace(/\.00$/, '');
+                    probDiv.textContent = `${udderPercentage}%`;
+
+                    item.appendChild(imgContainer);
+                    item.appendChild(colorNameDiv);
+                    item.appendChild(probDiv);
+                    grid.appendChild(item);
+                }
+
+                // Show without udder if it appears
+                if (withoutUdderCount > 0) {
+                    const item = document.createElement('div');
+                    item.className = 'result-item';
+                    const percentage = (withoutUdderCount / total * 100).toFixed(2).replace(/\.00$/, '');
+                    item.innerHTML = `
+                        <img src="${colorData.image}" alt="${result.color}">
+                        <div class="color-name">${result.color}</div>
+                        <div class="probability">${percentage}%</div>
+                    `;
+                    grid.appendChild(item);
+                }
+            });
+        }
+
+        // Toggle for parent 1
+        function toggleParent1Testing() {
+            parent1UseTesting = document.getElementById('parent1TestingToggle').checked;
+            const parent1DropdownContainer = document.getElementById('parent1DropdownContainer');
+            const parent1GenotypeSelector = document.getElementById('parent1Genotype');
+
+            parent1DropdownContainer.classList.toggle('hidden', parent1UseTesting);
+            parent1GenotypeSelector.classList.toggle('active', parent1UseTesting);
+
+            calculateOffspring();
+        }
+
+        // Toggle for parent 2
+        function toggleParent2Testing() {
+            parent2UseTesting = document.getElementById('parent2TestingToggle').checked;
+            const parent2DropdownContainer = document.getElementById('parent2DropdownContainer');
+            const parent2GenotypeSelector = document.getElementById('parent2Genotype');
+
+            parent2DropdownContainer.classList.toggle('hidden', parent2UseTesting);
+            parent2GenotypeSelector.classList.toggle('active', parent2UseTesting);
+
+            calculateOffspring();
+        }
+
+        // Initialize
+        populateColorDropdowns();
+
+        // Add checkbox listeners
+        document.getElementById('parent1TestingToggle').addEventListener('change', toggleParent1Testing);
+        document.getElementById('parent2TestingToggle').addEventListener('change', toggleParent2Testing);
+
+        // Add listeners to genotype dropdowns
+        document.querySelectorAll('.genotype-selector select').forEach(dropdown => {
+            dropdown.addEventListener('change', calculateOffspring);
+        });
+
+        // Add listeners to zygosity dropdowns
+        document.getElementById('parent1ZygosityDropdown').addEventListener('change', calculateOffspring);
+        document.getElementById('parent2ZygosityDropdown').addEventListener('change', calculateOffspring);
+    </script>
+</body>
+</html>

@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>White Park Cattle Color Calculator</title>
+    <style>
+        :root {
+            --brand-color1: #052e68;
+            --brand-color2: #0a5fd7;
+            --brand-color3: #009be1;
+            --brand-color4: #37c3f5;
+            --gray-0: #f8fafb;
+            --gray-1: #f2f4f6;
+            --gray-2: #ebedef;
+            --gray-3: #e0e4e5;
+            --gray-4: #d1d6d8;
+            --gray-6: #979b9d;
+            --gray-12: #121210;
+            --brown-0: #faf4eb;
+            --brown-5: #b78f6d;
+            --brown-8: #825b3a;
+            --border-radius: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, sans-serif;
+            background: var(--gray-0);
+            color: var(--gray-12);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 32px 16px;
+        }
+
+        .calculator {
+            max-width: 1200px;
+            width: 100%;
+            background: white;
+            border-radius: calc(var(--border-radius) * 2);
+            padding: 32px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .calculator-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            color: black;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            margin: 0 0 32px;
+            color: black;
+            font-size: 16px;
+        }
+
+        .nav {
+            margin-bottom: 24px;
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+
+        .nav a {
+            padding: 8px 16px;
+            background: var(--gray-1);
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            color: black;
+            font-weight: 500;
+        }
+
+        .nav a:hover {
+            background: var(--gray-2);
+        }
+
+        .nav a.active {
+            background: var(--brand-color2);
+            color: white;
+        }
+
+        .breed-tabs {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 32px;
+            border-bottom: 2px solid var(--gray-3);
+            padding-bottom: 0;
+        }
+
+        .breed-tab {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray-6);
+            transition: all 0.15s ease-in-out;
+            margin-bottom: -2px;
+        }
+
+        .breed-tab:hover {
+            color: var(--brand-color2);
+        }
+
+        .breed-tab.active {
+            color: var(--brand-color2);
+            border-bottom-color: var(--brand-color2);
+        }
+
+        .gene-group-container {
+            padding: 24px;
+            background: var(--gray-0);
+            border-radius: var(--border-radius);
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .gene-group {
+            margin-bottom: 32px;
+        }
+
+        .gene-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .gene-summary-box {
+            margin-top: 24px;
+            padding: 16px;
+            background: white;
+            border-radius: var(--border-radius);
+            border: 2px solid var(--gray-3);
+        }
+
+        .gene-summary-box h4 {
+            margin: 0 0 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: black;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .gene-summary-box .genotype {
+            font-size: 18px;
+            font-weight: 700;
+            color: black;
+            font-family: 'Courier New', monospace;
+            width: fit-content;
+        }
+
+        .gene-group h3 {
+            margin: 0 0 12px;
+            font-size: 15px;
+            color: black;
+        }
+
+        .gene-description {
+            margin: 0 0 16px;
+            font-size: 14px;
+            color: black;
+        }
+
+        .allele-selector {
+            display: flex;
+            justify-content: flex-start;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .allele-buttons {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .allele-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 80px;
+            border: 2px solid var(--gray-4);
+            border-radius: 8px;
+            padding: 12px 20px;
+            background: white;
+            color: black;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s ease-in-out;
+        }
+
+        .allele-btn:hover {
+            border-color: var(--brand-color3);
+            background: var(--gray-0);
+        }
+
+        .allele-btn.selected {
+            border-color: var(--brand-color2);
+            border-width: 3px;
+            background: white;
+            color: black;
+        }
+
+        .allele-btn:active {
+            scale: 0.95;
+        }
+
+        .result-section {
+            padding: 32px;
+            background: var(--gray-0);
+            border-radius: var(--border-radius);
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: sticky;
+            top: 32px;
+        }
+
+        .result-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: black;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .result-color {
+            font-size: 28px;
+            font-weight: 600;
+            color: black;
+            margin: 0 0 16px 0;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+
+        .result-color.visible {
+            opacity: 1;
+        }
+
+        .result-image {
+            max-width: 400px;
+            width: 100%;
+            min-height: 300px;
+            margin-top: 16px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .result-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+
+        .result-image img.loaded {
+            opacity: 1;
+        }
+
+        .genes-section {
+            text-align: left;
+        }
+
+        .gene-group h3 {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+
+        .gene-group h3:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            left: 0;
+            bottom: 100%;
+            margin-bottom: 7px;
+            padding: 12px;
+            background: white;
+            color: black;
+            border-radius: var(--border-radius);
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            max-width: 400px;
+            width: max-content;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--gray-3);
+        }
+
+        .gene-group h3:hover::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            bottom: 100%;
+            margin-bottom: 0px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid white;
+            z-index: 1001;
+            filter: drop-shadow(0 1px 0 var(--gray-3));
+        }
+
+        .gene-summary {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 1px solid var(--gray-2);
+            text-align: left;
+        }
+
+        .gene-summary h2 {
+            font-size: 20px;
+            margin-bottom: 24px;
+            color: black;
+        }
+
+        .gene-info {
+            margin-bottom: 24px;
+        }
+
+        .gene-info h4 {
+            font-size: 16px;
+            color: black;
+            margin: 0 0 8px;
+        }
+
+        .gene-info p {
+            margin: 0 0 12px;
+            color: black;
+            line-height: 1.6;
+        }
+
+        .allele-list {
+            margin: 8px 0;
+            padding-left: 20px;
+        }
+
+        .allele-list li {
+            margin-bottom: 6px;
+            color: black;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 540px) {
+            .calculator {
+                padding: 24px 16px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .result-color {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="nav">
+            <a href="../highland-calculator.html" class="active">Color Calculator</a>
+            <a href="../breeding-calculator.html">Breeding Calculator</a>
+        </div>
+
+        <h1>White Park Cattle Color Calculator</h1>
+        <p class="subtitle">Select alleles for each gene to determine coat color and points</p>
+
+        <div class="breed-tabs">
+            <a href="../highland-calculator.html" class="breed-tab">Highland Cattle</a>
+            <a href="white-park-calculator.html" class="breed-tab active">White Park Cattle</a>
+            <a href="../Shorthorn/shorthorn-calculator.html" class="breed-tab">Shorthorn Cattle</a>
+            <a href="../Hereford/hereford-calculator.html" class="breed-tab">Hereford Cattle</a>
+        </div>
+
+        <div class="calculator-grid">
+            <div class="genes-section">
+                <div class="gene-group-container">
+                    <div class="gene-group">
+                        <h3 data-tooltip="The MC1R (Extension) gene controls point color in White Park cattle.">Point Color (MC1R)</h3>
+                        <div class="allele-selector">
+                            <button class="allele-btn" data-gene="mc1r" data-position="0" data-options='["e","ED"]'>ED</button>
+                            <button class="allele-btn" data-gene="mc1r" data-position="1" data-options='["e","ED"]'>ED</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="result-section">
+                <div class="result-color" id="result"></div>
+                <div class="result-image" id="resultImage"></div>
+            </div>
+        </div>
+
+        <div class="gene-summary">
+            <h2>About White Park Cattle</h2>
+
+            <div class="gene-info">
+                <p>White Park cattle are an ancient British breed known for their striking white coat with black or red points. They are one of the rarest cattle breeds in the world and have been maintained in British parks for centuries. The breed is characterized by their hardiness, excellent maternal qualities, and distinctive appearance.</p>
+                <p>All White Park cattle have the characteristic white body coloration with colored points on the ears, muzzle, eye rings, hooves, and tail switch.</p>
+            </div>
+
+            <div class="gene-info">
+                <h4>MC1R (Extension) Gene</h4>
+                <p>The MC1R gene controls the color of the points (ears, muzzle, eye rings, hooves, and tail switch) on White Park cattle.</p>
+                <ul class="allele-list">
+                    <li><strong>E<sup>D</sup> (Dominant Black):</strong> Produces black coloration on the points. This is the most common type and produces the classic White Park phenotype.</li>
+                    <li><strong>e (Recessive Red):</strong> When homozygous (e/e), produces red or mahogany coloration on the points. This rarer variant is sometimes called Red-pointed White Park or Red Park.</li>
+                </ul>
+                <p><strong>Color Outcomes:</strong></p>
+                <ul class="allele-list">
+                    <li><strong>E<sup>D</sup>/E<sup>D</sup> or E<sup>D</sup>/e:</strong> White with Black Points (classic White Park)</li>
+                    <li><strong>e/e:</strong> White with Red Points (rare variant)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const state = {
+            mc1r: ['ED', 'ED']
+        };
+
+        const alleleDisplay = {
+            'ED': 'E<sup>D</sup>',
+            'e': 'e'
+        };
+
+        function whiteParkColor(mc1r) {
+            const isRedPointed = mc1r[0] === 'e' && mc1r[1] === 'e';
+
+            // All White Park cattle have white bodies with colored points
+            if (isRedPointed) {
+                return {
+                    color: 'White with Red Points',
+                    description: 'White body with red/mahogany points on ears, muzzle, eye rings, hooves, and tail switch'
+                };
+            } else {
+                return {
+                    color: 'White with Black Points',
+                    description: 'White body with black points on ears, muzzle, eye rings, hooves, and tail switch (classic White Park)'
+                };
+            }
+        }
+
+        let currentColor = null;
+
+        function updateResult(isInitialLoad = false) {
+            const result = whiteParkColor(state.mc1r);
+            const resultText = document.getElementById('result');
+            const resultImage = document.getElementById('resultImage');
+
+            // Map color to image filename
+            const imageMap = {
+                'White with Black Points': '../White_Park_Img/black_tips.svg',
+                'White with Red Points': '../White_Park_Img/red_tips.svg'
+            };
+
+            const imagePath = imageMap[result.color];
+
+            // Check if color changed
+            const colorChanged = result.color !== currentColor;
+            if (!colorChanged && !isInitialLoad) {
+                return;
+            }
+
+            currentColor = result.color;
+
+            // Update result text
+            resultText.textContent = result.color;
+
+            if (isInitialLoad) {
+                // Initial load - simple fade in
+                const newImg = document.createElement('img');
+                newImg.src = imagePath;
+                newImg.alt = result.color;
+                newImg.style.position = 'relative';
+                resultImage.innerHTML = '';
+                resultImage.appendChild(newImg);
+
+                newImg.onload = () => {
+                    requestAnimationFrame(() => {
+                        newImg.classList.add('loaded');
+                        resultText.classList.add('visible');
+                    });
+                };
+            } else {
+                // Cross-fade between colors
+                resultText.classList.remove('visible');
+
+                const oldImages = resultImage.querySelectorAll('img');
+                oldImages.forEach(img => img.classList.add('old-image'));
+
+                const newImg = document.createElement('img');
+                newImg.src = imagePath;
+                newImg.alt = result.color;
+                newImg.style.position = 'absolute';
+                newImg.style.top = '0';
+                newImg.style.left = '0';
+                newImg.style.width = '100%';
+                newImg.style.height = 'auto';
+                newImg.classList.add('new-image');
+                resultImage.appendChild(newImg);
+
+                newImg.onload = () => {
+                    requestAnimationFrame(() => {
+                        newImg.classList.add('loaded');
+                        resultText.classList.add('visible');
+
+                        setTimeout(() => {
+                            oldImages.forEach(img => img.remove());
+                            newImg.style.position = 'relative';
+                            newImg.classList.remove('new-image');
+                        }, 400); // Faster transition
+                    });
+                };
+            }
+        }
+
+        function handleAlleleClick(event) {
+            const button = event.target.closest('.allele-btn');
+            if (!button) return;
+
+            const gene = button.dataset.gene;
+            const position = parseInt(button.dataset.position);
+            const options = JSON.parse(button.dataset.options);
+
+            // Get current value
+            const currentValue = state[gene][position];
+            const currentIndex = options.indexOf(currentValue);
+
+            // Cycle to next option
+            const nextIndex = (currentIndex + 1) % options.length;
+            const nextValue = options[nextIndex];
+
+            // Update state
+            state[gene][position] = nextValue;
+
+            // Update button display
+            button.innerHTML = alleleDisplay[nextValue];
+
+            // Calculate result
+            updateResult();
+        }
+
+        // Add event listeners
+        document.querySelectorAll('.allele-btn').forEach(button => {
+            button.addEventListener('click', handleAlleleClick);
+        });
+
+        // Initialize with default values
+        updateResult(true);
+    </script>
+</body>
+</html>
