@@ -66,45 +66,6 @@ require_once 'includes/header.php';
             display: none;
         }
 
-        .zygosity-selector {
-            margin-top: 16px;
-            display: none;
-        }
-
-        .zygosity-selector.visible {
-            display: block;
-        }
-
-        .zygosity-selector label {
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: black;
-        }
-
-        .zygosity-dropdown {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid var(--gray-4);
-            border-radius: var(--border-radius);
-            background: white;
-            color: black;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.15s ease-in-out;
-        }
-
-        .zygosity-dropdown:hover {
-            border-color: var(--brand-color3);
-        }
-
-        .zygosity-dropdown:focus {
-            outline: none;
-            border-color: var(--brand-color2);
-        }
-
         .gene-group {
             margin-bottom: 24px;
         }
@@ -272,13 +233,6 @@ require_once 'includes/header.php';
                     <label for="parent1TestingToggle">Have genetic testing results?</label>
                 </div>
                 <div class="color-selector" id="parent1Selector"></div>
-                <div class="zygosity-selector" id="parent1Zygosity">
-                    <label for="parent1ZygosityDropdown">ED Zygosity:</label>
-                    <select class="zygosity-dropdown" id="parent1ZygosityDropdown">
-                        <option value="heterozygous">Heterozygous (ED/e or ED/E+)</option>
-                        <option value="homozygous">Homozygous (ED/ED)</option>
-                    </select>
-                </div>
                 <div class="genotype-selector" id="parent1Genotype">
                     <div class="gene-group">
                         <h4>Base (MC1R)</h4>
@@ -336,13 +290,6 @@ require_once 'includes/header.php';
                     <label for="parent2TestingToggle">Have genetic testing results?</label>
                 </div>
                 <div class="color-selector" id="parent2Selector"></div>
-                <div class="zygosity-selector" id="parent2Zygosity">
-                    <label for="parent2ZygosityDropdown">ED Zygosity:</label>
-                    <select class="zygosity-dropdown" id="parent2ZygosityDropdown">
-                        <option value="heterozygous">Heterozygous (ED/e or ED/E+)</option>
-                        <option value="homozygous">Homozygous (ED/ED)</option>
-                    </select>
-                </div>
                 <div class="genotype-selector" id="parent2Genotype">
                     <div class="gene-group">
                         <h4>Base (MC1R)</h4>

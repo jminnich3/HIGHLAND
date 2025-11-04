@@ -300,36 +300,124 @@
         }
 
         .gene-summary h2 {
-            font-size: 20px;
-            margin-bottom: 24px;
+            font-size: 24px;
+            margin-bottom: 12px;
             color: black;
+            text-align: center;
         }
 
-        .gene-info {
-            margin-bottom: 24px;
-        }
-
-        .gene-info h4 {
-            font-size: 16px;
-            color: black;
-            margin: 0 0 8px;
-        }
-
-        .gene-info p {
-            margin: 0 0 12px;
-            color: black;
+        .gene-intro {
+            text-align: center;
+            color: var(--gray-6);
+            font-size: 15px;
+            max-width: 700px;
+            margin: 0 auto 32px;
             line-height: 1.6;
         }
 
-        .allele-list {
-            margin: 8px 0;
-            padding-left: 20px;
+        .gene-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
         }
 
-        .allele-list li {
-            margin-bottom: 6px;
+        .gene-card {
+            background: white;
+            border: 2px solid var(--gray-3);
+            border-radius: calc(var(--border-radius) * 1.5);
+            padding: 24px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .gene-card:hover {
+            border-color: var(--brand-color3);
+            box-shadow: 0 4px 12px rgba(0, 155, 225, 0.1);
+        }
+
+        .gene-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .gene-card-header h3 {
+            font-size: 18px;
+            margin: 0;
+            color: black;
+        }
+
+        .gene-badge {
+            background: var(--brand-color2);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .gene-description {
+            color: var(--gray-6);
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 0 0 20px;
+        }
+
+        .allele-table {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .allele-row {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            gap: 16px;
+            padding: 12px;
+            background: var(--gray-0);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--brand-color2);
+        }
+
+        .allele-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--brand-color2);
+            font-family: 'Courier New', monospace;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .allele-details strong {
+            display: block;
+            font-size: 14px;
+            color: black;
+            margin-bottom: 4px;
+        }
+
+        .allele-details p {
+            margin: 0;
+            font-size: 13px;
             color: black;
             line-height: 1.5;
+        }
+
+        @media (max-width: 900px) {
+            .gene-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .allele-row {
+                grid-template-columns: 50px 1fr;
+                gap: 12px;
+            }
+
+            .allele-name {
+                font-size: 18px;
+            }
         }
 
         @media (max-width: 540px) {

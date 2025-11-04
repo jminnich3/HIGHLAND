@@ -177,7 +177,7 @@ function updateResult(isInitialLoad = false) {
                     // Only show highlights if homozygous (F/F)
                     if (frostedCount === 2) {
                         const highlightsImg = document.createElement('img');
-                        highlightsImg.src = 'images/HighlandsFinal/white_highlights_6.svg';
+                        highlightsImg.src = 'images/HighlandsFinal/frosting4.svg';
                         highlightsImg.alt = 'White Highlights';
                         highlightsImg.style.position = 'absolute';
                         highlightsImg.style.top = '0';
@@ -205,7 +205,7 @@ function updateResult(isInitialLoad = false) {
                         busDubhImg.style.top = '0';
                         busDubhImg.style.left = '0';
                         busDubhImg.style.width = '100%';
-                        busDubhImg.style.height = 'auto';
+                        busDubhImg.style.height = '100%';
                         resultImage.appendChild(busDubhImg);
 
                         busDubhImg.onload = () => {
@@ -272,7 +272,7 @@ function updateResult(isInitialLoad = false) {
                 busDubhImg.style.top = '0';
                 busDubhImg.style.left = '0';
                 busDubhImg.style.width = '100%';
-                busDubhImg.style.height = 'auto';
+                busDubhImg.style.height = '100%';
                 resultImage.appendChild(busDubhImg);
             }
 
@@ -337,7 +337,7 @@ function updateResult(isInitialLoad = false) {
             // Add frosted highlights only if homozygous (F/F)
             if (frostedCount === 2) {
                 const highlightsImg = document.createElement('img');
-                highlightsImg.src = 'images/HighlandsFinal/white_highlights_6.svg';
+                highlightsImg.src = 'images/HighlandsFinal/frosting4.svg';
                 highlightsImg.alt = 'White Highlights';
                 highlightsImg.style.position = 'absolute';
                 highlightsImg.style.top = '0';
@@ -357,7 +357,7 @@ function updateResult(isInitialLoad = false) {
                 busDubhImg.style.top = '0';
                 busDubhImg.style.left = '0';
                 busDubhImg.style.width = '100%';
-                busDubhImg.style.height = 'auto';
+                busDubhImg.style.height = '100%';
                 busDubhImg.classList.add('new-image');
                 resultImage.appendChild(busDubhImg);
             }

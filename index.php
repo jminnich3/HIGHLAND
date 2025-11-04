@@ -104,35 +104,99 @@ require_once 'includes/calculator-styles.php';
         </div>
 
         <div class="gene-summary">
-            <h2>Gene Information</h2>
+            <h2>Understanding Highland Cattle Genetics</h2>
+            <p class="gene-intro">Three main genes work together to determine coat color in Highland cattle. Each gene has multiple alleles that interact to create the seven recognized colors.</p>
 
-            <div class="gene-info">
-                <h4>Base (MC1R)</h4>
-                <p>The MC1R gene controls whether an animal produces black (eumelanin) or red (pheomelanin) pigment. This is the primary determinant of base coat color.</p>
-                <ul class="allele-list">
-                    <li><strong>E<sup>D</sup> (Dominant Black):</strong> Forces production of black pigment. Even one copy will result in a black-based coat color. This allele is dominant over both E<sup>+</sup> and e.</li>
-                    <li><strong>E<sup>+</sup> (Wild-type Extension):</strong> Allows normal pigment expression. The actual color depends on other genes like ASIP. This is the "normal" allele.</li>
-                    <li><strong>e (Recessive Red):</strong> Prevents black pigment production entirely, resulting in red-based colors only. Two copies (e/e) are needed to express this trait.</li>
-                </ul>
-            </div>
+            <div class="gene-cards">
+                <div class="gene-card">
+                    <div class="gene-card-header">
+                        <h3>Base Gene (MC1R)</h3>
+                        <span class="gene-badge">Extension</span>
+                    </div>
+                    <p class="gene-description">Controls whether an animal produces black or red pigment. This is the primary determinant of base coat color.</p>
 
-            <div class="gene-info">
-                <h4>Dilution (PMEL)</h4>
-                <p>The PMEL gene dilutes or lightens whatever base color is present. The Highland dilution (D) acts in a dose-dependent manner—more copies mean more dilution.</p>
-                <ul class="allele-list">
-                    <li><strong>d (Non-dilute):</strong> No dilution effect. Colors appear at full intensity.</li>
-                    <li><strong>D (Highland Dilution):</strong> Lightens the coat color. One copy (d/D) produces medium dilution (Black → Dun, Red → Yellow). Two copies (D/D) produce strong dilution (Black → Silver, Red → White).</li>
-                </ul>
-            </div>
+                    <div class="allele-table">
+                        <div class="allele-row">
+                            <div class="allele-name">E<sup>D</sup></div>
+                            <div class="allele-details">
+                                <strong>Dominant Black</strong>
+                                <p>Forces black pigment production. Even one copy results in black-based colors (Black, Dun, Silver). Dominant over E<sup>+</sup> and e.</p>
+                            </div>
+                        </div>
+                        <div class="allele-row">
+                            <div class="allele-name">E<sup>+</sup></div>
+                            <div class="allele-details">
+                                <strong>Wild-type Extension</strong>
+                                <p>Allows normal pigment expression. Works with other genes to create red-based colors and brindle patterns. The "normal" allele.</p>
+                            </div>
+                        </div>
+                        <div class="allele-row">
+                            <div class="allele-name">e</div>
+                            <div class="allele-details">
+                                <strong>Recessive Red</strong>
+                                <p>Prevents black pigment entirely, creating red-based colors (Red, Yellow, White). Requires two copies (e/e) to express.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="gene-info">
-                <h4>Agouti (ASIP)</h4>
-                <p>The ASIP gene modifies pigment distribution to create patterns. In Highland cattle, it controls brindle striping and bùs dubh (black muzzle) traits.</p>
-                <ul class="allele-list">
-                    <li><strong>A (Non-agouti):</strong> Produces solid, uniform color without patterning or dark points.</li>
-                    <li><strong>A<sup>+</sup> (Wild-type Agouti):</strong> Creates bùs dubh - characteristic black pigmentation on the muzzle, ear tips, and points. Only visible on red-based cattle (e/e or E<sup>+</sup> without E<sup>D</sup>). On black cattle (E<sup>D</sup>), this trait is masked.</li>
-                    <li><strong>A<sup>br</sup> (Brindle):</strong> Creates vertical striping pattern by restricting black pigment to bands. Only visible when paired with E<sup>+</sup> (not with E<sup>D</sup> or e/e), resulting in the distinctive Brindle color.</li>
-                </ul>
+                <div class="gene-card">
+                    <div class="gene-card-header">
+                        <h3>Dilution Gene (PMEL)</h3>
+                        <span class="gene-badge">Premelanosome</span>
+                    </div>
+                    <p class="gene-description">Dilutes or lightens the base coat color. Acts in a dose-dependent manner—more D alleles mean more dilution.</p>
+
+                    <div class="allele-table">
+                        <div class="allele-row">
+                            <div class="allele-name">d</div>
+                            <div class="allele-details">
+                                <strong>Non-dilute</strong>
+                                <p>No dilution effect. Colors appear at full intensity (Black, Red, Brindle).</p>
+                            </div>
+                        </div>
+                        <div class="allele-row">
+                            <div class="allele-name">D</div>
+                            <div class="allele-details">
+                                <strong>Highland Dilution</strong>
+                                <p><strong>One copy (d/D):</strong> Medium dilution → Black becomes Dun, Red becomes Yellow<br>
+                                <strong>Two copies (D/D):</strong> Strong dilution → Black becomes Silver, Red becomes White</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gene-card">
+                    <div class="gene-card-header">
+                        <h3>Agouti Gene (ASIP)</h3>
+                        <span class="gene-badge">Pattern</span>
+                    </div>
+                    <p class="gene-description">Modifies pigment distribution to create patterns like brindle striping and bùs dubh (dark points).</p>
+
+                    <div class="allele-table">
+                        <div class="allele-row">
+                            <div class="allele-name">A</div>
+                            <div class="allele-details">
+                                <strong>Non-agouti</strong>
+                                <p>Produces solid, uniform color without patterning or dark points.</p>
+                            </div>
+                        </div>
+                        <div class="allele-row">
+                            <div class="allele-name">A<sup>+</sup></div>
+                            <div class="allele-details">
+                                <strong>Wild-type Agouti</strong>
+                                <p>Creates bùs dubh—black pigmentation on muzzle, ear tips, and points. Only visible on red-based cattle. Masked on black cattle with E<sup>D</sup>.</p>
+                            </div>
+                        </div>
+                        <div class="allele-row">
+                            <div class="allele-name">A<sup>br</sup></div>
+                            <div class="allele-details">
+                                <strong>Brindle</strong>
+                                <p>Creates vertical striping by restricting black pigment to bands. Only visible with E<sup>+</sup> (not with E<sup>D</sup> or e/e). Creates the Brindle color.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 

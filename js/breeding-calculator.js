@@ -81,8 +81,6 @@ let selectedParent1 = null;
 let selectedParent2 = null;
 let parent1UseTesting = false;
 let parent2UseTesting = false;
-let parent1Zygosity = 'heterozygous';
-let parent2Zygosity = 'heterozygous';
 
 function highlandColor(mc1r, pmel, asip) {
     const has_ED = mc1r.includes('ED');
@@ -134,14 +132,6 @@ function selectParent(parentId, colorName, element) {
         selectedParent2 = colorName;
     }
 
-    // Show/hide zygosity selector for Black, Dun, or Silver
-    const zygositySelector = document.getElementById(`${parentId}Zygosity`);
-    if (['Black', 'Dun', 'Silver'].includes(colorName)) {
-        zygositySelector.classList.add('visible');
-    } else {
-        zygositySelector.classList.remove('visible');
-    }
-
     calculateOffspring();
 }
 
@@ -175,16 +165,10 @@ function calculateOffspring() {
         }
         const parent1Genotypes = colorGenotypes[selectedParent1];
 
-        // For Black, Dun, Silver - use zygosity to pick genotype
+        // For Black, Dun, Silver - always use heterozygous (ED/e) genotype
         if (['Black', 'Dun', 'Silver'].includes(selectedParent1)) {
-            parent1Zygosity = document.getElementById('parent1ZygosityDropdown').value;
-            if (parent1Zygosity === 'homozygous') {
-                // Use ED/ED genotype (first one in array)
-                p1 = parent1Genotypes[0];
-            } else {
-                // Use ED/e genotype (heterozygous)
-                p1 = parent1Genotypes[6];
-            }
+            // Use ED/e genotype (heterozygous - index 6)
+            p1 = parent1Genotypes[6];
         } else {
             p1 = parent1Genotypes[0];
         }
@@ -214,16 +198,10 @@ function calculateOffspring() {
         }
         const parent2Genotypes = colorGenotypes[selectedParent2];
 
-        // For Black, Dun, Silver - use zygosity to pick genotype
+        // For Black, Dun, Silver - always use heterozygous (ED/e) genotype
         if (['Black', 'Dun', 'Silver'].includes(selectedParent2)) {
-            parent2Zygosity = document.getElementById('parent2ZygosityDropdown').value;
-            if (parent2Zygosity === 'homozygous') {
-                // Use ED/ED genotype (first one in array)
-                p2 = parent2Genotypes[0];
-            } else {
-                // Use ED/e genotype (heterozygous)
-                p2 = parent2Genotypes[6];
-            }
+            // Use ED/e genotype (heterozygous - index 6)
+            p2 = parent2Genotypes[6];
         } else {
             p2 = parent2Genotypes[0];
         }
@@ -406,10 +384,6 @@ createColorSelector('parent2');
 // Add checkbox listeners
 document.getElementById('parent1TestingToggle').addEventListener('change', toggleParent1Testing);
 document.getElementById('parent2TestingToggle').addEventListener('change', toggleParent2Testing);
-
-// Add listeners to zygosity dropdowns
-document.getElementById('parent1ZygosityDropdown').addEventListener('change', calculateOffspring);
-document.getElementById('parent2ZygosityDropdown').addEventListener('change', calculateOffspring);
 
 // Add listeners to genotype dropdowns
 document.querySelectorAll('.genotype-selector select').forEach(dropdown => {
