@@ -89,6 +89,9 @@ function updateResult(isInitialLoad = false) {
     const resultText = document.getElementById('result');
     const resultImage = document.getElementById('resultImage');
 
+    // Don't show frosting on Silver or White cattle
+    const canHaveFrosting = color !== 'Silver' && color !== 'White';
+
     // Display color names with light variants distinguished
     let displayColor = color;
     if (color === 'Red-Light') {
@@ -175,9 +178,9 @@ function updateResult(isInitialLoad = false) {
                     if (oldHighlights) oldHighlights.remove();
 
                     // Only show highlights if homozygous (F/F)
-                    if (frostedCount === 2) {
+                    if (frostedCount === 2 && canHaveFrosting) {
                         const highlightsImg = document.createElement('img');
-                        highlightsImg.src = 'images/HighlandsFinal/frosting4.svg';
+                        highlightsImg.src = 'images/HighlandsFinal/frosting5.svg';
                         highlightsImg.alt = 'White Highlights';
                         highlightsImg.style.position = 'absolute';
                         highlightsImg.style.top = '0';
@@ -202,7 +205,7 @@ function updateResult(isInitialLoad = false) {
                         busDubhImg.src = 'images/HighlandsFinal/bus_dubh_4.svg';
                         busDubhImg.alt = 'Bùs Dubh';
                         busDubhImg.style.position = 'absolute';
-                        busDubhImg.style.top = '0';
+                        busDubhImg.style.top = '30px';
                         busDubhImg.style.left = '0';
                         busDubhImg.style.width = '100%';
                         busDubhImg.style.height = '100%';
@@ -251,7 +254,7 @@ function updateResult(isInitialLoad = false) {
             }
 
             // Add frosted highlights only if homozygous (F/F)
-            if (frostedCount === 2) {
+            if (frostedCount === 2 && canHaveFrosting) {
                 const highlightsImg = document.createElement('img');
                 highlightsImg.src = 'images/HighlandsFinal/white_highlights_6.svg';
                 highlightsImg.alt = 'White Highlights';
@@ -269,7 +272,7 @@ function updateResult(isInitialLoad = false) {
                 busDubhImg.src = 'images/HighlandsFinal/bus_dubh_4.svg';
                 busDubhImg.alt = 'Bùs Dubh';
                 busDubhImg.style.position = 'absolute';
-                busDubhImg.style.top = '0';
+                busDubhImg.style.top = '30px';
                 busDubhImg.style.left = '0';
                 busDubhImg.style.width = '100%';
                 busDubhImg.style.height = '100%';
@@ -284,11 +287,11 @@ function updateResult(isInitialLoad = false) {
                         const udderImg = resultImage.querySelector('img[alt="White Udder"]');
                         if (udderImg) udderImg.classList.add('loaded');
                     }
-                    if (frostedCount >= 1) {
+                    if (frostedCount >= 1 && canHaveFrosting) {
                         const frostedImg = resultImage.querySelector('img[alt="Frosted Highlights"]');
                         if (frostedImg) frostedImg.classList.add('loaded');
                     }
-                    if (frostedCount === 2) {
+                    if (frostedCount === 2 && canHaveFrosting) {
                         const highlightsImg = resultImage.querySelector('img[alt="White Highlights"]');
                         if (highlightsImg) highlightsImg.classList.add('loaded');
                     }
@@ -335,9 +338,9 @@ function updateResult(isInitialLoad = false) {
             }
 
             // Add frosted highlights only if homozygous (F/F)
-            if (frostedCount === 2) {
+            if (frostedCount === 2 && canHaveFrosting) {
                 const highlightsImg = document.createElement('img');
-                highlightsImg.src = 'images/HighlandsFinal/frosting4.svg';
+                highlightsImg.src = 'images/HighlandsFinal/frosting5.svg';
                 highlightsImg.alt = 'White Highlights';
                 highlightsImg.style.position = 'absolute';
                 highlightsImg.style.top = '0';
@@ -354,7 +357,7 @@ function updateResult(isInitialLoad = false) {
                 busDubhImg.src = 'images/HighlandsFinal/bus_dubh_4.svg';
                 busDubhImg.alt = 'Bùs Dubh';
                 busDubhImg.style.position = 'absolute';
-                busDubhImg.style.top = '0';
+                busDubhImg.style.top = '30px';
                 busDubhImg.style.left = '0';
                 busDubhImg.style.width = '100%';
                 busDubhImg.style.height = '100%';
